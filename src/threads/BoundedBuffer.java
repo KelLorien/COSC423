@@ -11,31 +11,25 @@ package threads;
  * Applied Operating Systems Concepts - John Wiley and Sons, Inc.
  */
 
-public class BoundedBuffer
-{
-    public BoundedBuffer()
-    {
-        // buffer is initially empty
+public class BoundedBuffer {
+    private static final int BUFFER_SIZE = 5;
+
+    private int count;
+    private int in;
+    private int out;
+    private Item[] buffer;
+
+    public BoundedBuffer() {
         count = 0;
         in = 0;
         out = 0;
 
-        buffer = new Object[BUFFER_SIZE];
+        buffer = new Item[BUFFER_SIZE];
     }
 
-    // producer and consumer will call this to nap
-    public static void napping() {
-        int sleepTime = (int) (NAP_TIME * Math.random() );
-        try { Thread.sleep(sleepTime*1000); }
-        catch(InterruptedException e) { }
-    }
-
-    public synchronized void enter(Object item) {
+    public synchronized void enter(Item item) {
         while (count == BUFFER_SIZE) {
-            try {
-                wait();
-            }
-            catch (InterruptedException e) { }
+            waitIgnore();
         }
 
         // add an item to the buffer
@@ -51,15 +45,11 @@ public class BoundedBuffer
         notify();
     }
 
-    // consumer calls this method
-    public synchronized Object remove() {
-        Object item;
+    public synchronized Item remove() {
+        Item item;
 
         while (count == 0) {
-            try {
-                wait();
-            }
-            catch (InterruptedException e) { }
+            waitIgnore();
         }
 
         // remove an item from the buffer
@@ -77,11 +67,11 @@ public class BoundedBuffer
         return item;
     }
 
-    public static final int    NAP_TIME = 5;
-    private static final int   BUFFER_SIZE = 5;
-
-    private int count; // number of items in the buffer
-    private int in;   // points to the next free position in the buffer
-    private int out;  // points to the next full position in the buffer
-    private Object[] buffer;
+    private void waitIgnore() {
+        try {
+            wait();
+        } catch (InterruptedException e) {
+            // ignore
+        }
+    }
 }

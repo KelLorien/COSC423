@@ -12,16 +12,10 @@ package threads;
  * Applied Operating Systems Concepts - John Wiley and Sons, Inc.
  */
 
-public class Factory
-{
-	public static void main(String args[]) {
-		BoundedBuffer server = new BoundedBuffer();
+public class Factory {
+    public static void main(String args[]) {
 
-      		// now create the producer and consumer threads
-      		Producer producerThread = new Producer(server);
-      		Consumer consumerThread = new Consumer(server);
-      
-      		producerThread.start();
-      		consumerThread.start();               
-	}
+
+        System.out.println("finished startup");
+    }
 }
