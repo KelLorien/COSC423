@@ -1,7 +1,6 @@
 package threads;
 
 /**
- * BoundedBuffer.java
  *
  * This program implements the bounded buffer using Java synchronization.
  *
@@ -9,10 +8,12 @@ package threads;
  * @version 1.0 - July 15, 1999
  * Copyright 2000 by Greg Gagne, Peter Galvin, Avi Silberschatz
  * Applied Operating Systems Concepts - John Wiley and Sons, Inc.
+ *
+ * Modified by Josh Pipe
  */
 
 public class BoundedBuffer {
-    private static final int BUFFER_SIZE = 5;
+    private static final int BUFFER_SIZE = 3;
 
     private int count;
     private int in;
@@ -27,40 +28,30 @@ public class BoundedBuffer {
         buffer = new Item[BUFFER_SIZE];
     }
 
-    public synchronized void enter(Item item) {
+    public synchronized void enter(Item item, FactoryWorker requestor) {
         while (count == BUFFER_SIZE) {
+            System.out.println("WARNING: " + requestor + " is waiting to place an item.");
             waitIgnore();
         }
 
-        // add an item to the buffer
         ++count;
         buffer[in] = item;
         in = (in + 1) % BUFFER_SIZE;
 
-        if (count == BUFFER_SIZE)
-            System.out.println("Producer Entered " + item + " Buffer FULL");
-        else
-            System.out.println("Producer Entered " + item + " Buffer Size = " +  count);
-
         notify();
     }
 
-    public synchronized Item remove() {
+    public synchronized Item remove(FactoryWorker requestor) {
         Item item;
 
         while (count == 0) {
+            System.out.println("WARNING: " + requestor + " is waiting to get an item.");
             waitIgnore();
         }
 
-        // remove an item from the buffer
         --count;
         item = buffer[out];
         out = (out + 1) % BUFFER_SIZE;
-
-        if (count == 0)
-            System.out.println("Consumer Consumed " + item + " Buffer EMPTY");
-        else
-            System.out.println("Consumer Consumed " + item + " Buffer Size = " + count);
 
         notify();
 

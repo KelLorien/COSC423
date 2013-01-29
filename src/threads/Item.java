@@ -1,5 +1,9 @@
 package threads;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+
 /**
  * User: jpipe
  * Date: 1/29/13
@@ -9,20 +13,19 @@ public class Item {
     private static int ITEM_COUNT = 0;
 
     private int itemNum;
-    private String handledBy;
+    private ArrayList<String> handledBy = new ArrayList<String>();
 
 
-    public Item(String starter) {
+    public Item() {
         itemNum = ++ITEM_COUNT;
-        handledBy += starter;
     }
 
     public void handle(String h) {
-        handledBy += ", " + h;
+        handledBy.add(h);
     }
 
     @Override
     public String toString() {
-        return "Item " + itemNum + "<" + handledBy + ">";
+        return "Item " + itemNum + "<" + Arrays.toString(handledBy.toArray()) + ">";
     }
 }

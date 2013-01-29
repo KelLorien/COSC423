@@ -5,7 +5,7 @@ package threads;
  * Date: 1/29/13
  */
 public class FactoryWorker extends Thread {
-    public static final int NAP_TIME = 7;
+    public static final int WORK_TIME = 10;
     public static final int MAX_PRODUCTION = 24;
 
     private String name;
@@ -22,36 +22,58 @@ public class FactoryWorker extends Thread {
     @Override
     public void run() {
         while (true) {
-            nap();
-
             Item item = get();
-            item.handle(name);
+            handle(item);
             send(item);
 
             productionCount++;
-            if (productionCount >= 24) {
+            if (productionCount >= MAX_PRODUCTION) {
                 break;
             }
         }
-    }
-
-    private void send(Item item) {
-        to.enter(item);
-        System.out.println(name + " handled " + item);
+        System.out.println(name + " is finished.");
     }
 
     private Item get() {
-        Item item = from.remove();
-        System.out.println(name + " removed " + item);
+        Item item;
+        if (from == null) {         //if 'from' is null, create a new object, else get one from 'from'
+            item = new Item();
+        } else {
+            item = from.remove(this);
+            System.out.println(name + " got " + item);
+        }
+
         return item;
     }
 
-    private void nap() {
-        int sleepTime = (int) (NAP_TIME * Math.random() );
+    private void handle(Item item) {
+        System.out.println(name + " is working on " + item);
+
+        work();
+
+        item.handle(name);
+    }
+
+    private void send(Item item) {
+        if (to != null) {         //if 'to' is null, do nothing (considered a finished item)
+            to.enter(item, this);
+            System.out.println(name + " sent " + item);
+        } else {
+            System.out.println(item + " is finished.");
+        }
+    }
+
+    private void work() {
+        int sleepTime = (int) (WORK_TIME * Math.random() );
         try {
             Thread.sleep(sleepTime*1000);
         } catch(InterruptedException e) {
             //ignore
         }
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 }
