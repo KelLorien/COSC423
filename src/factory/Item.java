@@ -1,8 +1,7 @@
-package threads;
+package factory;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 
 /**
  * User: jpipe

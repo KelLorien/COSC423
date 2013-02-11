@@ -1,9 +1,9 @@
-package threads;
+package factory;
 
 /**
  * Factory.java
  *
- * This creates the buffer and the producer and consumer threads.
+ * This creates the buffer and the producer and consumer factory.
  *
  * @author Greg Gagne, Peter Galvin, Avi Silberschatz
  * @version 1.0 - July 15, 1999

@@ -1,4 +1,4 @@
-package threads;
+package factory;
 
 /**
  * User: jpipe
@@ -55,7 +55,7 @@ public class FactoryWorker extends Thread {
     }
 
     private void send(Item item) {
-        if (to != null) {         //if 'to' is null, do nothing (considered a finished item)
+        if (to != null) {         //if 'to' is null, item is finished
             to.enter(item, this);
             System.out.println(name + " sent " + item);
         } else {
