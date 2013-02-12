@@ -26,8 +26,10 @@ public class Statistics {
                     //ignore, go to next
                 }
             }
-        } else {
-            System.out.println("requires 1 or more command line arguments separated by spaces");
+        }
+
+        if (numbers.size() < 1) {
+            System.out.println("requires 1 or more numerical arguments, separated by spaces");
             System.exit(0);
         }
 
