@@ -2,6 +2,7 @@ package threads;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Scanner;
 
 /**
  * User: jpipe
@@ -29,9 +30,12 @@ public class Statistics {
             }
         }
 
-        if (numbers.size() < 1) {
-            System.out.println("requires 1 or more numerical arguments, separated by spaces");
-            System.exit(0);
+        while (numbers.size() < 1) {
+            System.out.println("Enter some numbers separated by spaces: ");
+            String line = new Scanner(System.in).nextLine();
+            for (String s: line.split(" "))  {
+                numbers.add(Integer.parseInt(s));
+            }
         }
 
         Thread averageThread = new Thread(new Average());
