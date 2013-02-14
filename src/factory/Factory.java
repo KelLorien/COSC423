@@ -1,15 +1,9 @@
 package factory;
 
 /**
- * Factory.java
+ * Initializes all buffers and starts the factory workers.
  *
- * This creates the buffer and the producer and consumer factory.
- *
- * @author Greg Gagne, Peter Galvin, Avi Silberschatz
- * @version 1.0 - July 15, 1999
- * @version 2.0 -- Feb. 8, 2010
- * Copyright 2000 by Greg Gagne, Peter Galvin, Avi Silberschatz
- * Applied Operating Systems Concepts - John Wiley and Sons, Inc.
+ * Josh Pipe
  */
 
 public class Factory {
