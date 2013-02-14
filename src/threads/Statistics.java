@@ -18,6 +18,7 @@ public class Statistics {
 
     public static void main(String[] args) {
 
+        //get command line args
         if (args.length >= 1) {
             for (String i: args) {
                 try {
