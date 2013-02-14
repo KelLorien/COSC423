@@ -12,7 +12,7 @@ public class Statistics {
 
     public static ArrayList<Integer> numbers = new ArrayList<Integer>();
 
-    public static int average;
+    public static double average;
     public static int minimum;
     public static int maximum;
 
@@ -60,7 +60,7 @@ public class Statistics {
             for (int i:  numbers) {
                 sum += i;
             }
-            average = sum/numbers.size();
+            average = ((double) sum)/numbers.size();
         }
     }
 
