@@ -2,6 +2,7 @@ package Scheduler;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Scanner;
 import java.util.StringTokenizer;
 
 /**
@@ -38,6 +39,32 @@ public class RunScheduler {
     }
 
     private static InputStream getInputStream() {
-        return new ByteArrayInputStream("1 0 200\n2 100 300\n3 300 300\n4 100 300".getBytes());
+        InputStream stream = null;
+
+        try {
+            stream = new FileInputStream("scheduleInput.txt");
+        } catch (FileNotFoundException e) {
+            while (stream == null) {
+                stream = manualInputStream();
+            }
+        }
+
+        return stream;
+    }
+
+    private static InputStream manualInputStream() {
+        System.out.println("File not Found. Enter a file name to use for program input: ");
+        Scanner scanner = new Scanner(System.in);
+        String name = scanner.nextLine();
+
+        if (!name.endsWith(".txt")) {
+            name += ".txt";
+        }
+
+        try {
+            return new FileInputStream(name);
+        } catch (FileNotFoundException e) {
+            return null;
+        }
     }
 }
