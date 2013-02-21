@@ -1,6 +1,8 @@
 package Scheduler;
 
-import java.util.ArrayList;
+import Scheduler.jobs.Job;
+
+import static Scheduler.RunScheduler.OUTPUT;
 
 /**
  * User: jpipe
@@ -8,45 +10,43 @@ import java.util.ArrayList;
  */
 public class SystemSimulator extends Thread {
 
-    private static final long QUANTUM = 100L;
+    private static final long QUANTUM = 1000L;
 
     private Scheduler scheduler;
 
-    private ArrayList<Job> readyQ = new ArrayList<Job>();
     private boolean jobsStillToSubmit = true;
     private long startTime;
+    private Job currentJob;
 
-    public SystemSimulator(Scheduler s) {
-        this.scheduler = s;
+    public SystemSimulator() {
+        this.scheduler = new Scheduler();
     }
 
     public void run() {
-        while (jobsStillToSubmit) {
+        startTime = System.currentTimeMillis();
+        while (jobsStillToSubmit || scheduler.hasJobs()) {
             try {
+                if (interrupted()) {
+                    throw new InterruptedException();
+                }
                 sleep(QUANTUM);
             } catch (InterruptedException e) {
-                Job nextJob = getNextJob();
-                if (nextJob != null) {
-                    //TODO: run job
-                }
+                log(currentJob, " terminated at " + relativeTime());
+                currentJob = scheduler.makeRun(relativeTime());
             }
         }
+
         scheduler.printGannt();
     }
 
-    public void addNewJob(Job j) {
-        readyQ.add(j);
-    }
-
     public void noMoreJobsToSubmit() {
+        OUTPUT.println("No more jobs");
         jobsStillToSubmit = false;
     }
 
-    private Job getNextJob() {
-        if (readyQ.size() > 0) {
-            return readyQ.remove(0);
-        }
-        return null;
+    public void addNewProcess(Job j) {
+        scheduler.add(j, relativeTime());
+        interrupt();
     }
 
     public void exit() {
@@ -55,5 +55,11 @@ public class SystemSimulator extends Thread {
 
     public long relativeTime() {
         return System.currentTimeMillis() - startTime;
+    }
+
+    private void log(Job j, String s) {
+        if (j != null) {
+            OUTPUT.println(j.getName() + s);
+        }
     }
 }
