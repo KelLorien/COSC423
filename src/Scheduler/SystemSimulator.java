@@ -20,6 +20,7 @@ public class SystemSimulator extends Thread {
 
     public SystemSimulator() {
         this.scheduler = new Scheduler();
+        this.setName("System Simulator");
     }
 
     public void run() {

@@ -2,8 +2,6 @@ package Scheduler.jobs;
 
 import Scheduler.SystemSimulator;
 
-import java.util.StringTokenizer;
-
 /**
  * User: jpipe
  * Date: 2/20/13
@@ -19,9 +17,9 @@ public abstract class Job extends Thread {
 
     public Job(String descriptor, SystemSimulator os, String name) {
         this.os = os;
-        StringTokenizer description = new StringTokenizer(descriptor, ", ");
-        this.id = Integer.parseInt(description.nextToken());
-        this.burst = Integer.parseInt(description.nextToken());
+        String[] description = descriptor.split(" ");
+        this.id = Integer.parseInt(description[0]);
+        this.burst = Integer.parseInt(description[1]);
         this.setName(name);
     }
 

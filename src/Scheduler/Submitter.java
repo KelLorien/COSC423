@@ -4,7 +4,6 @@ import Scheduler.jobs.Job;
 import Scheduler.jobs.MattJob;
 
 import java.util.ArrayList;
-import java.util.StringTokenizer;
 
 /**
  * User: jpipe
@@ -19,16 +18,18 @@ public class Submitter extends Thread {
 
     public Submitter(SystemSimulator ss, ArrayList<String> jobs) {
         os = ss;
+        this.setName("Submitter");
         creator = new JobCreator();
 
         for (String s: jobs) {
-            StringTokenizer tokens = new StringTokenizer(s, " ,");
-            String description = tokens.nextToken();
-            delays.add(Long.parseLong(tokens.nextToken()));
-            descriptions.add(description + " " + tokens.nextToken());
+            String[] tokens = s.split("\\s");
+
+            delays.add(Long.parseLong(tokens[1]));
+            descriptions.add(tokens[0] + " " + tokens[2]);
         }
     }
 
+    //TODO: fix delays so that it is in real time, NOT relative to last submission
     public void run() {
         for (int i = 0; i < delays.size(); i++) {
             try {

@@ -3,7 +3,6 @@ package Scheduler;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.StringTokenizer;
 
 /**
  * User: jpipe
@@ -13,10 +12,21 @@ public class RunScheduler {
 
     public static PrintStream OUTPUT;
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         if (args.length > 0) {
-            OUTPUT = new PrintStream(args[0] + ".txt");
+            if (args[0].startsWith("-d")) {
+                OUTPUT = System.out;
+            }
+        } else {
+            try {
+                OUTPUT = new PrintStream("sampleOutput.txt");
+            } catch (FileNotFoundException e) {
+                System.out.println("Could not set output to default output file");
+                e.printStackTrace();
+                OUTPUT = System.out;
+            }
         }
+
         Thread thisThread = Thread.currentThread();
         thisThread.setPriority(Thread.MAX_PRIORITY);
         SystemSimulator os = new SystemSimulator();
@@ -26,8 +36,17 @@ public class RunScheduler {
         BufferedReader input = new BufferedReader(new InputStreamReader(getInputStream()));
 
         String line;
-        while ((line = input.readLine()) != null) {
-            jobs.add(line);
+        try {
+            while ((line = input.readLine()) != null) {
+                line = line.trim();
+                if (line.length() > 0) {
+                    jobs.add(line);
+                }
+            }
+        } catch (IOException e) {
+            System.err.println("Error reading input file.");
+            e.printStackTrace();
+            System.exit(0);
         }
 
         Submitter sub = new Submitter(os, jobs);
@@ -53,7 +72,7 @@ public class RunScheduler {
     }
 
     private static InputStream manualInputStream() {
-        System.out.println("File not Found. Enter a file name to use for program input: ");
+        System.out.println("File not Found. Specify a new file to use for program input: ");
         Scanner scanner = new Scanner(System.in);
         String name = scanner.nextLine();
 

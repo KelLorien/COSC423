@@ -18,9 +18,6 @@ public class Scheduler {
 
     public Job makeRun(long currentTime) {
         if (hasJobs()) {
-            if (lastStart == 0) {
-                lastStart = currentTime;
-            }
             Job next = readyQ.remove(0);
             gannt.add(currentTime + "\t\t" + (currentTime  - lastStart) + "\t\t" + next.getName());
             OUTPUT.println("Starting " + next.getName() + " at " + currentTime);

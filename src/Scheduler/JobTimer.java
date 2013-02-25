@@ -12,6 +12,7 @@ public class JobTimer extends Thread {
     private long time;
 
     public JobTimer(Job j, long ms) {
+        this.setName(j.getName() + " Timer");
         this.job = j;
         this.time = ms;
     }
