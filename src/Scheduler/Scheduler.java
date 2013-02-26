@@ -39,7 +39,7 @@ public class Scheduler {
     }
 
     public void printGannt() {
-        OUTPUT.println("GANNT CHART\nTIME\tDELTA\tNAME\n" +
+        OUTPUT.println("GANNT CHART\nTIME\t\tDELTA\t\tNAME\n" +
                 "------------------------------------------");
         for (String s: gannt) {
             OUTPUT.println(s);

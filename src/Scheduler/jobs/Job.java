@@ -20,7 +20,7 @@ public abstract class Job extends Thread {
         String[] description = descriptor.split(" ");
         this.id = Integer.parseInt(description[0]);
         this.burst = Integer.parseInt(description[1]);
-        this.setName(name);
+        this.setName(name + this.id);
     }
 
     public abstract void run();
@@ -38,7 +38,6 @@ public abstract class Job extends Thread {
     }
 
     public void Exit() {
-        System.out.println(getName() + " called Exit");
         os.exit();
     }
 }
