@@ -37,7 +37,7 @@ public class SystemSimulator extends Thread {
             }
         }
 
-        scheduler.printGannt();
+        scheduler.printGantt();
     }
 
     public void noMoreJobsToSubmit() {

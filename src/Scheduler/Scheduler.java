@@ -13,19 +13,24 @@ public class Scheduler {
 
     private ArrayList<Job> readyQ = new ArrayList<Job>();
 
-    private ArrayList<String> gannt = new ArrayList<String>();
+    private ArrayList<String> gantt = new ArrayList<String>();
     private long lastStart = 0;
 
     public Job makeRun(long currentTime) {
         if (hasJobs()) {
             Job next = readyQ.remove(0);
-            gannt.add(currentTime + "\t\t" + (currentTime  - lastStart) + "\t\t" + next.getName());
+            gantt.add(currentTime + "\t\t" + (currentTime - lastStart) + "\t\t" + next.getName());
             OUTPUT.println("Starting " + next.getName() + " at " + currentTime);
             lastStart = currentTime;
             next.run();
             return next;
         }
         return null;
+    }
+
+    public void idle(long currentTime) {
+        gantt.add(currentTime + "\t\t" + (currentTime - lastStart) + "\t\tIDLE");
+        lastStart = currentTime;
     }
 
     public void add(Job j, long currentTime) {
@@ -38,10 +43,10 @@ public class Scheduler {
         return readyQ.size() > 0;
     }
 
-    public void printGannt() {
-        OUTPUT.println("GANNT CHART\nTIME\t\tDELTA\t\tNAME\n" +
+    public void printGantt() {
+        OUTPUT.println("GANTT CHART\nTIME\t\tDELTA\t\tNAME\n" +
                 "------------------------------------------");
-        for (String s: gannt) {
+        for (String s: gantt) {
             OUTPUT.println(s);
         }
     }
