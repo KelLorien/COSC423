@@ -19,7 +19,7 @@ public class Scheduler {
     public Job makeRun(long currentTime) {
         if (hasJobs()) {
             Job next = readyQ.remove(0);
-            gantt.add(currentTime + "\t\t" + (currentTime - lastStart) + "\t\t" + next.getName());
+            gantt.add(currentTime + "   \t" + (currentTime - lastStart) + "   \t" + next.getName());
             OUTPUT.println("Starting " + next.getName() + " at " + currentTime);
             lastStart = currentTime;
             next.run();
@@ -43,11 +43,13 @@ public class Scheduler {
         return readyQ.size() > 0;
     }
 
-    public void printGantt() {
-        OUTPUT.println("GANTT CHART\nTIME\t\tDELTA\t\tNAME\n" +
+    public void printGantt(Long currentTime) {
+        OUTPUT.println("GANTT CHART\nTIME\tDELTA\tNAME\n" +
                 "------------------------------------------");
         for (String s: gantt) {
             OUTPUT.println(s);
         }
+
+        OUTPUT.println(currentTime + "   \t" + (currentTime - lastStart) + "   \tDone");
     }
 }
