@@ -28,11 +28,6 @@ public class Scheduler {
         return null;
     }
 
-    public void idle(long currentTime) {
-        gantt.add(currentTime + "\t\t" + (currentTime - lastStart) + "\t\tIDLE");
-        lastStart = currentTime;
-    }
-
     public void add(Job j, long currentTime) {
         OUTPUT.println("Adding " + j.getName() + " to the queue at " + currentTime);
         readyQ.add(j);

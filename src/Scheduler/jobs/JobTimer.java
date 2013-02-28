@@ -1,5 +1,6 @@
-package Scheduler;
+package Scheduler.jobs;
 
+import Scheduler.Scheduler;
 import Scheduler.jobs.Job;
 
 /**

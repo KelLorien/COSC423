@@ -47,7 +47,7 @@ public class Submitter extends Thread {
         for (int i = 0; i < delays.size(); i++) {
             try {
                 //Sleep until it is time to submit the next job. The time until submission of the next job will be
-                //the absolute delay (given in the list delays) minus the current time according to the OS.
+                //the absolute delay (given in the ArrayList delays) minus the current time according to the OS.
                 //If submission time has already passed, do not sleep at all.
                 sleep(delays.get(i) > os.relativeTime() ? delays.get(i) - os.relativeTime() : 0L);
             } catch (InterruptedException e) {

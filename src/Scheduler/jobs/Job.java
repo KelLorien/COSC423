@@ -10,7 +10,6 @@ public abstract class Job extends Thread {
 
     private SystemSimulator os;
     private long burst;
-    private int jobId;
     private int id;
 
     private boolean shouldRun = true;
