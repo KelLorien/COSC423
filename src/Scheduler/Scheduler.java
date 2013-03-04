@@ -26,7 +26,7 @@ public class Scheduler {
             next.start();
             return next;
         }
-        OUTPUT.println("No jobs remaining");
+        OUTPUT.println("No jobs in queue");
         return null;
     }
 
