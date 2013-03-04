@@ -29,11 +29,10 @@ public class SystemSimulator extends Thread {
         while (jobsStillToSubmit || scheduler.hasJobs() || currentJob != null) {
             try {
                 //If the OS was interrupted while not sleep, try to start the next job.
-                //This is just to be safe, it may not actually be able to occur this way.
+                //This is just to be safe, it could be that this can't occur.
                 if (interrupted()) {
                     throw new InterruptedException();
                 }
-                System.out.println("sleeping " + Math.random());
                 sleep(QUANTUM);
             } catch (InterruptedException e) {
                 if (startNext) {

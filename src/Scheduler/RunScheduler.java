@@ -21,7 +21,7 @@ public class RunScheduler {
             try {
                 OUTPUT = new PrintStream("sampleOutput.txt");
             } catch (FileNotFoundException e) {
-                System.out.println("Could not set output to default output file");
+                System.out.println("Could not set output to default output file. Output will go to System.out.");
                 e.printStackTrace();
                 OUTPUT = System.out;
             }
@@ -51,10 +51,10 @@ public class RunScheduler {
 
         Submitter sub = new Submitter(os, jobs);
         os.setPriority(8);
-        os.start(); // Thread executing this instruction has higher priority, so will continue to hold cpu
         sub.setPriority(7); // Should interrupt os only when os is sleeping, but can always interrupt running Jobs
+
+        os.start(); //the current thread will continue to hold priority until this method (main) returns
         sub.start();
-        // As the driver exits, os has the highest priority, so should get the cpu....
     }
 
     private static InputStream getInputStream() {
@@ -72,7 +72,7 @@ public class RunScheduler {
     }
 
     private static InputStream manualInputStream() {
-        System.out.println("File not Found. Specify a new file to use for program input: ");
+        System.out.println("File not Found for input. Specify a new file to use for program input: ");
         Scanner scanner = new Scanner(System.in);
         String name = scanner.nextLine();
 

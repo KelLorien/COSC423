@@ -12,9 +12,9 @@ import static Scheduler.RunScheduler.OUTPUT;
 public class Scheduler {
 
     private ArrayList<Job> readyQ = new ArrayList<Job>();
+    private long lastStart = 0;
 
     private ArrayList<String> gantt = new ArrayList<String>();
-    private long lastStart = 0;
 
     public Job makeRun(long currentTime) {
         if (hasJobs()) {
@@ -41,7 +41,8 @@ public class Scheduler {
     }
 
     public void printGantt(Long currentTime) {
-        OUTPUT.println("GANTT CHART\nTIME\tDELTA\tNAME\n" +
+        OUTPUT.println("GANTT CHART\n" +
+                "TIME\tDELTA\tNAME\n" +
                 "------------------------------------------");
         for (String s: gantt) {
             OUTPUT.println(s);
