@@ -23,17 +23,7 @@ public class Submitter extends Thread {
         this.setName("Submitter");
         creator = new JobCreator();
 
-        Collections.sort(jobs, new Comparator<String>() {
-        //Sort the array of strings based on the second token, which is the delay, so that the shortest delay will be
-        //first in line to be added.
-            @Override
-            public int compare(String s, String s2) {
-                long delay1 = Long.parseLong(s.split("\\s")[1]);
-                long delay2 = Long.parseLong(s2.split("\\s")[1]);
-
-                return delay1<delay2? -1 : delay1==delay2? 0 : 1;
-            }
-        });
+        sortJobs(jobs);
 
         for (String s: jobs) {
             String[] tokens = s.split("\\s");
@@ -41,6 +31,20 @@ public class Submitter extends Thread {
             delays.add(Long.parseLong(tokens[1]));
             descriptions.add(tokens[0] + " " + tokens[2]);
         }
+    }
+
+    private void sortJobs(ArrayList<String> jobs) {
+        Collections.sort(jobs, new Comparator<String>() {
+            //Sort the array of strings based on the second token, which is the delay, so that the shortest delay will be
+            //first in line to be added.
+            @Override
+            public int compare(String s, String s2) {
+                long delay1 = Long.parseLong(s.split("\\s")[1]);
+                long delay2 = Long.parseLong(s2.split("\\s")[1]);
+
+                return delay1 < delay2 ? -1 : delay1 == delay2 ? 0 : 1;
+            }
+        });
     }
 
     public void run() {

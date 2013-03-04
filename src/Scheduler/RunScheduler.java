@@ -21,7 +21,7 @@ public class RunScheduler {
             try {
                 OUTPUT = new PrintStream("sampleOutput.txt");
             } catch (FileNotFoundException e) {
-                System.out.println("Could not set output to default output file. Output will go to console.");
+                System.out.println("Could not set output to default output file");
                 e.printStackTrace();
                 OUTPUT = System.out;
             }

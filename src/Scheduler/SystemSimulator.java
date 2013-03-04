@@ -26,7 +26,7 @@ public class SystemSimulator extends Thread {
 
     public void run() {
         startTime = System.currentTimeMillis();
-        while (jobsStillToSubmit || scheduler.hasJobs()) {
+        while (jobsStillToSubmit || scheduler.hasJobs() || currentJob != null) {
             try {
                 //If the OS was interrupted while not sleep, try to start the next job.
                 //This is just to be safe, it may not actually be able to occur this way.
@@ -36,7 +36,6 @@ public class SystemSimulator extends Thread {
                 System.out.println("sleeping " + Math.random());
                 sleep(QUANTUM);
             } catch (InterruptedException e) {
-                System.out.println(startNext);
                 if (startNext) {
                     log(currentJob, " terminated at " + relativeTime());
                     currentJob = scheduler.makeRun(relativeTime());
@@ -44,6 +43,8 @@ public class SystemSimulator extends Thread {
                     //the next job when it next gets interrupted. In that case, the next interrupt should be from the
                     //job submitter, signalling that it has submitted the next job.
                     startNext = currentJob == null;
+                } else {
+                    OUTPUT.println("Interrupted by Submitter");
                 }
             }
         }

@@ -19,12 +19,14 @@ public class Scheduler {
     public Job makeRun(long currentTime) {
         if (hasJobs()) {
             Job next = readyQ.remove(0);
+            next.setPriority(6);
             gantt.add(currentTime + "   \t" + (currentTime - lastStart) + "   \t" + next.getName());
             OUTPUT.println("Starting " + next.getName() + " at " + currentTime);
             lastStart = currentTime;
-            next.run();
+            next.start();
             return next;
         }
+        OUTPUT.println("No jobs remaining");
         return null;
     }
 
