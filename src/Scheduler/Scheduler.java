@@ -50,4 +50,10 @@ public class Scheduler {
 
         OUTPUT.println(currentTime + "   \t" + (currentTime - lastStart) + "   \tDone");
     }
+
+    public void idle(long currentTime) {
+        gantt.add(currentTime + "   \t" + (currentTime - lastStart) + "   \tIDLE");
+        OUTPUT.println("PROCESSOR IDLE");
+        lastStart = currentTime;
+    }
 }

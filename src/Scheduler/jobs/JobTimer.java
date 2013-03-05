@@ -1,8 +1,5 @@
 package Scheduler.jobs;
 
-import Scheduler.Scheduler;
-import Scheduler.jobs.Job;
-
 /**
  * User: jpipe
  * Date: 2/21/13
