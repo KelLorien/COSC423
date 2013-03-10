@@ -21,14 +21,14 @@ public class RunScheduler {
             try {
                 OUTPUT = new PrintStream("sampleOutput.txt");
             } catch (FileNotFoundException e) {
-                System.out.println("Could not set output to default output file. Output will go to System.out.");
+                System.out.println("Could not set output to default output file \"sampleOutput.txt\". " +
+                        "Output will go to System.out.");
                 e.printStackTrace();
                 OUTPUT = System.out;
             }
         }
 
-        Thread thisThread = Thread.currentThread();
-        thisThread.setPriority(Thread.MAX_PRIORITY);
+        Thread.currentThread().setPriority(Thread.MAX_PRIORITY);
         SystemSimulator os = new SystemSimulator();
 
         ArrayList<String> jobs = new ArrayList<String>();

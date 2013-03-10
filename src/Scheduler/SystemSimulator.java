@@ -38,15 +38,13 @@ public class SystemSimulator extends Thread {
                 if (startNext) {
                     log(currentJob, " terminated at " + relativeTime());
                     currentJob = scheduler.makeRun(relativeTime());
-                    //if current job NOT null, then a job has been started. If it is null, the OS should try to execute
-                    //the next job when it next gets interrupted. In that case, the next interrupt should be from the
-                    //job submitter, signalling that it has submitted the next job.
+                    //If current job NOT null, then a job has been started.
+                    //If it is null, then there was no job in the queue, and the OS is idle. The next interrupt that the
+                    //OS receives should be from the submittor in this case, signalling that there is a new job to start.
                     startNext = currentJob == null;
                     if (startNext && jobsExist()) {
                         scheduler.idle(relativeTime());
                     }
-                } else {
-                    OUTPUT.println("Interrupted by Submitter");
                 }
             }
         }

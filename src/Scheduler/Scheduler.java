@@ -53,7 +53,7 @@ public class Scheduler {
 
     public void idle(long currentTime) {
         gantt.add(currentTime + "   \t" + (currentTime - lastStart) + "   \tIDLE");
-        OUTPUT.println("PROCESSOR IDLE");
+        OUTPUT.println("PROCESSOR IS IDLE");
         lastStart = currentTime;
     }
 }
