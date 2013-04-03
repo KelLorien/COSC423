@@ -69,8 +69,6 @@ public abstract class Pager {
 
     public abstract void execute();
 
-    public abstract void handleFault(int pageId);
-
     public int getFaults() {
         return faults;
     }

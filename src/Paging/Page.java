@@ -7,10 +7,16 @@ package Paging;
 public class Page {
 
     private int id;
+    private int lastUsed = 0;
     private double frequency = 1.0;
 
     public Page(int id) {
         this.id = id;
+    }
+
+    public Page(int pageId, int round) {
+        this.id = pageId;
+        this.lastUsed = round;
     }
 
     public void accessed() {
@@ -25,4 +31,11 @@ public class Page {
         return id;
     }
 
+    public int getLastUsed() {
+        return lastUsed;
+    }
+
+    public void setLastUsed(int lastUsed) {
+        this.lastUsed = lastUsed;
+    }
 }

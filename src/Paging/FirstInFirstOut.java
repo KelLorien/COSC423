@@ -30,7 +30,6 @@ public class FirstInFirstOut extends Pager {
         }
     }
 
-    @Override
     public void handleFault(int pageId) {
         if (state.size() < frameCount) {
             state.add(new Page(pageId));
