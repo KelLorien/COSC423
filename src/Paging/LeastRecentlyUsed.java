@@ -22,10 +22,10 @@ public class LeastRecentlyUsed extends Pager{
             boolean fault = isPageFault(tries.get(i));
             if (fault) {
                 handleFault(tries.get(i), i);
-            } else {
+            } else { //if there is no fault, update the page that was used
                 updateLastUsed(i);
             }
-            this.takeStateSnapshot(tries.get(i), fault);
+            takeStateSnapshot(tries.get(i), fault);
         }
     }
 
@@ -37,7 +37,7 @@ public class LeastRecentlyUsed extends Pager{
         }
     }
 
-    public void handleFault(int pageId, int round) {
+    private void handleFault(int pageId, int round) {
         if (state.size() < frameCount) {
             state.add(new Page(pageId, round));
         } else {

@@ -8,7 +8,7 @@ public class Page {
 
     private int id;
     private int lastUsed = 0;
-    private double frequency = 1.0;
+    private int accesses = 1;
 
     public Page(int id) {
         this.id = id;
@@ -20,11 +20,15 @@ public class Page {
     }
 
     public void accessed() {
-        frequency += 1.0;
+        accesses += 1;
     }
 
-    public void resetFrequency() {
-        frequency = 1.0;
+    public void resetAccesses() {
+        accesses = 0;
+    }
+
+    public double getAccesses() {
+        return accesses;
     }
 
     public int getId() {

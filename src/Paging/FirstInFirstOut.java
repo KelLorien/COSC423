@@ -26,11 +26,11 @@ public class FirstInFirstOut extends Pager {
             if (fault) {
                 handleFault(page);
             } //else, do nothing
-            this.takeStateSnapshot(page, fault);
+            takeStateSnapshot(page, fault);
         }
     }
 
-    public void handleFault(int pageId) {
+    private void handleFault(int pageId) {
         if (state.size() < frameCount) {
             state.add(new Page(pageId));
         } else {
