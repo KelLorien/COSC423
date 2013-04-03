@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import static Paging.Pager.PAGER_TYPE.*;
+
 /**
  * User: jpipe
  * Date: 4/1/13
@@ -12,6 +14,20 @@ public abstract class Pager {
 
     //for output of the table
     public static final int ROW_SIZE = 20;
+
+    public static enum PAGER_TYPE {
+        FIFO, LRU, OPTIMAL, LFU
+    }
+
+    public static Pager getPager(PAGER_TYPE type, int frames, List<Integer> tries) {
+        switch (type) {
+            case FIFO: return new FirstInFirstOut(frames, tries);
+            case LRU : return new LeastRecentlyUsed(frames, tries);
+            case OPTIMAL: return new OptimalPager(frames, tries);
+//            case LFU: return
+            default: return null;
+        }
+    }
 
     protected int frameCount = 0;
 
@@ -33,9 +49,9 @@ public abstract class Pager {
         Collections.addAll(this.tries, tries);
     }
 
-    public Pager(int frameCount, ArrayList<Integer> tries) {
+    public Pager(int frameCount, List<Integer> tries) {
         this.frameCount = frameCount;
-        Collections.copy(this.tries, tries);
+        this.tries = new ArrayList<Integer>(tries);
     }
 
     protected boolean isPageFault(int pageNum) {
@@ -101,4 +117,5 @@ public abstract class Pager {
             printSnapshots(snapshots.subList(ROW_SIZE, snapshots.size() - 1));
         }
     }
+
 }

@@ -2,6 +2,7 @@ package Paging;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 /**
  * User: jpipe
@@ -15,7 +16,7 @@ public class FirstInFirstOut extends Pager {
         super(frameCount, tries);
     }
 
-    public FirstInFirstOut(int frameCount, ArrayList<Integer> tries) {
+    public FirstInFirstOut(int frameCount, List<Integer> tries) {
         super(frameCount, tries);
     }
 

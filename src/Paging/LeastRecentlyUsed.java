@@ -1,6 +1,7 @@
 package Paging;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * User: jpipe
@@ -12,7 +13,7 @@ public class LeastRecentlyUsed extends Pager{
         super(frameCount, tries);
     }
 
-    public LeastRecentlyUsed(int frameCount, ArrayList<Integer> tries) {
+    public LeastRecentlyUsed(int frameCount, List<Integer> tries) {
         super(frameCount, tries);
     }
 

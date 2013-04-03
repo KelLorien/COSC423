@@ -1,6 +1,7 @@
 package Paging;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * User: jpipe
@@ -12,18 +13,19 @@ public class OptimalPager extends Pager {
         super(frameCount, tries);
     }
 
-    public OptimalPager(int frameCount, ArrayList<Integer> tries) {
+    public OptimalPager(int frameCount, List<Integer> tries) {
         super(frameCount, tries);
     }
 
     @Override
     public void execute() {
-        for (int page: tries) {
-            boolean fault = isPageFault(page);
+        while (tries.size() > 0) {
+            boolean fault = isPageFault(tries.get(0));
             if (fault) {
-                handleFault(page);
+                handleFault(tries.get(0));
             } //else, do nothing
-            takeStateSnapshot(page, fault);
+            takeStateSnapshot(tries.get(0), fault);
+            tries.remove(0);
         }
     }
 
