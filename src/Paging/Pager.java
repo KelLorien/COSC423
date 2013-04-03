@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static Paging.Pager.PAGER_TYPE.*;
-
 /**
  * User: jpipe
  * Date: 4/1/13
@@ -23,8 +21,8 @@ public abstract class Pager {
         switch (type) {
             case FIFO: return new FirstInFirstOut(frames, tries);
             case LRU : return new LeastRecentlyUsed(frames, tries);
+            case LFU: return new LeastFrequentlyUsed(frames, tries);
             case OPTIMAL: return new OptimalPager(frames, tries);
-//            case LFU: return
             default: return null;
         }
     }
@@ -37,12 +35,6 @@ public abstract class Pager {
     protected int faults = 0;
 
     private List<List<Integer>> stateSnapshot = new ArrayList<List<Integer>>();
-
-    public Pager() {
-        frameCount = 3;
-        tries = new ArrayList<Integer>();
-        Collections.addAll(tries, 1, 2, 3, 4);
-    }
 
     public Pager(int frameCount, Integer... tries) {
         this.frameCount = frameCount;
@@ -77,10 +69,6 @@ public abstract class Pager {
             }
         }
         stateSnapshot.add(currentState);
-    }
-
-    public List<List<Integer>> getStateSnapshot() {
-        return stateSnapshot;
     }
 
     public abstract void execute();

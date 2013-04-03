@@ -1,10 +1,11 @@
 package Paging;
 
+import javax.swing.text.NumberFormatter;
 import java.io.*;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * User: jpipe
@@ -41,10 +42,12 @@ public class PagingSimulation {
     private static void runCase(int frames, List<Integer> tries) {
         Pager lru = Pager.getPager(Pager.PAGER_TYPE.LRU, frames, tries);
         Pager fifo = Pager.getPager(Pager.PAGER_TYPE.FIFO, frames, tries);
+        Pager lfu = Pager.getPager(Pager.PAGER_TYPE.LFU, frames, tries);
         Pager opt = Pager.getPager(Pager.PAGER_TYPE.OPTIMAL, frames, tries);
 
         lru.execute();
         fifo.execute();
+        lfu.execute();
         opt.execute();
 
         System.out.println("LRU: ");
@@ -53,17 +56,22 @@ public class PagingSimulation {
         System.out.println("FIFO: ");
         fifo.printTable();
 
+        System.out.println("LFU: ");
+        lfu.printTable();
+
         System.out.println("OPTIMAL: ");
         opt.printTable();
 
         System.out.println("optimal -\tFaults: " + opt.getFaults());
-        System.out.println("FIFO -\tFaults: " + fifo.getFaults() + "\t%: " + getPercentOptimal(fifo, opt));
-        System.out.println("LRU -\tFaults: " + lru.getFaults() + "\t%: " + getPercentOptimal(lru, opt));
+        System.out.println("LRU -\tFaults: " + lru.getFaults() + "\tPercent optimal: " + getPercentOptimal(lru, opt));
+        System.out.println("FIFO -\tFaults: " + fifo.getFaults() + "\tPercent optimal: " + getPercentOptimal(fifo, opt));
+        System.out.println("LFU -\tFaults: " + lfu.getFaults() + "\tPercent optimal: " + getPercentOptimal(lfu, opt));
         System.out.println("\n\n");
     }
 
-    private static double getPercentOptimal(Pager target, Pager opt) {
-        return ((double) target.getFaults() / (double)opt.getFaults());
+    private static String getPercentOptimal(Pager target, Pager opt) {
+        DecimalFormat decimalFormat = new DecimalFormat("%###.#");
+        return decimalFormat.format((double) target.getFaults() / (double) opt.getFaults());
     }
 
     private static class InputClass {

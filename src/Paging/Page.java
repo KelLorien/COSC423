@@ -8,7 +8,9 @@ public class Page {
 
     private int id;
     private int lastUsed = 0;
+
     private int accesses = 1;
+    private int totalAccesses = 1;
 
     public Page(int id) {
         this.id = id;
@@ -19,16 +21,16 @@ public class Page {
         this.lastUsed = round;
     }
 
-    public void accessed() {
-        accesses += 1;
+    public void incrementAccesses() {
+        accesses++;
     }
 
-    public void resetAccesses() {
-        accesses = 0;
+    public void incrementOtherAccesses() {
+        totalAccesses++;
     }
 
-    public double getAccesses() {
-        return accesses;
+    public double getFrequency() {
+        return accesses / totalAccesses;
     }
 
     public int getId() {
