@@ -11,7 +11,7 @@ import java.util.List;
 public abstract class Pager {
 
     //for output of the table
-    public static final int ROW_SIZE = 20;
+    public static final int ROW_SIZE = 10;
 
     public static enum PAGER_TYPE {
         FIFO, LRU, OPTIMAL, LFU

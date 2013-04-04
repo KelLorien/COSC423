@@ -1,9 +1,7 @@
 package Paging;
 
-import javax.swing.text.NumberFormatter;
 import java.io.*;
 import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 
