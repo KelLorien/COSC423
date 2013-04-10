@@ -9,14 +9,29 @@ import static java.lang.Math.abs;
  * Time: 7:58 PM
  */
 public class misc {
+
+    static int CYLINDERS = 5000;
+
     public static void main(String[] args) {
         ArrayList<Integer> ints = new ArrayList<Integer>();
 
         Collections.addAll(ints, 2069, 1212, 2296, 2800, 544, 1618, 356, 1523, 4965, 3681);
-//        Collections.addAll(ints, 2, 12, 10);
+        int start = 2150;
+        int prev = 1800;
+//
+//        Collections.addAll(ints, 2, 12, 10, 8);
+//        CYLINDERS = 15;
+//        int start = 9;
+//        int prev = 6;
 
-//        fcfs(2150, ints);
-        sstf(0, ints);
+        int dir = (start - prev) >= 0 ? 1: -1;
+
+        fcfs(start, ints);
+        sstf(start, ints);
+        scan(start, dir, ints);
+        cscan(start, dir, ints);
+        look(start, dir, ints);
+        clook(start, dir, ints);
     }
 
     static void fcfs(int start, ArrayList<Integer> ints) {
@@ -57,5 +72,219 @@ public class misc {
         }
 
         return minInd;
+    }
+
+    static void scan(int start, int dir, ArrayList<Integer> ints) {
+        System.out.println("starts moving in " + (dir < 0 ? "negative" : "positive") + " direction");
+
+        Collections.sort(ints);
+
+        int current = start;
+        int sum = 0;
+        int pointer = 0;
+
+        while (pointer < ints.size() && current > ints.get(pointer)) {
+            pointer++;
+        }
+
+        if (dir < 0) {
+            pointer--;
+        }
+
+        if (pointer == ints.size()) {
+            System.out.println(current + " -> " + CYLINDERS + " = " + (CYLINDERS - current));
+            sum += CYLINDERS - current;
+            current = CYLINDERS;
+            dir = -1;
+            pointer = ints.size() - 1;
+        } else if (pointer < 0) {
+            System.out.println(current + " -> 0 = " + current);
+            sum += current;
+            current = 0;
+            dir = 1;
+            pointer = 0;
+        }
+
+        System.out.print(current + " -> ");
+        sum += abs(current - ints.get(pointer));
+        System.out.println(ints.get(pointer) + " = " + sum );
+        current = ints.get(pointer);
+
+        for (int count = ints.size(); count > 1; count--) {
+            pointer += dir;
+
+            if (pointer == ints.size()) {
+                System.out.println(current + " -> " + CYLINDERS + " = " + (CYLINDERS - current));
+                sum += CYLINDERS - current;
+                current = CYLINDERS;
+                dir = -1;
+                pointer = ints.size() - 1;
+            } else if (pointer < 0) {
+                System.out.println(current + " -> 0 = " + current);
+                sum += current;
+                current = 0;
+                dir = 1;
+                pointer = 0;
+            }
+
+            sum += abs(current - ints.get(pointer));
+            System.out.println(current + " -> " + ints.get(pointer) + " = " + abs(current - ints.get(pointer)));
+            current = ints.get(pointer);
+        }
+
+        System.out.println(sum);
+    }
+
+    static void cscan(int start, int dir, ArrayList<Integer> ints ) {
+        System.out.println("starts moving in " + (dir < 0 ? "negative": "positive") + " direction");
+
+        Collections.sort(ints);
+
+        int current = start;
+        int sum = 0;
+        int pointer = 0;
+
+        while (pointer < ints.size() && current > ints.get(pointer)) {
+            pointer++;
+        }
+
+        if (dir < 0) {
+            pointer--;
+        }
+
+        if (pointer == ints.size()) {
+            System.out.println(current + "-> 0 = " + (CYLINDERS - current + CYLINDERS));
+            sum += CYLINDERS - current + CYLINDERS;
+            current = 0;
+            pointer = 0;
+        } else if (pointer < 0) {
+            System.out.println(current + " -> " + CYLINDERS + " = " + (current + CYLINDERS));
+            sum += current + CYLINDERS;
+            current = CYLINDERS;
+            pointer = ints.size() - 1;
+        }
+
+        System.out.print(current + " -> ");
+        sum += abs(current - ints.get(pointer));
+        System.out.println(ints.get(pointer) + " = " + sum );
+        current = ints.get(pointer);
+
+        for (int count = ints.size(); count > 1; count--) {
+            pointer += dir;
+
+            if (pointer == ints.size()) {
+                System.out.println(current + " -> " + CYLINDERS + " -> 0 = " + (CYLINDERS - current + CYLINDERS));
+                sum += CYLINDERS - current + CYLINDERS;
+                current = 0;
+                pointer = 0;
+            } else if (pointer < 0) {
+                System.out.println(current + " -> 0 -> " + CYLINDERS + " = " + (current + CYLINDERS));
+                sum += current + CYLINDERS;
+                current = CYLINDERS;
+                pointer = ints.size() - 1;
+            }
+
+            sum += abs(current - ints.get(pointer));
+            System.out.println(current + " -> " + ints.get(pointer) + " = " + abs(current - ints.get(pointer)));
+            current = ints.get(pointer);
+        }
+
+        System.out.println(sum);
+
+    }
+
+    static void look(int start, int dir, ArrayList<Integer> ints) {
+        System.out.println("starts moving in " + (dir < 0 ? "negative": "positive") + " direction");
+        System.out.print(start + " -> ");
+
+        Collections.sort(ints);
+
+        int current = start;
+        int sum = 0;
+        int pointer = 0;
+
+        while (pointer < ints.size() && current > ints.get(pointer)) {
+            pointer++;
+        }
+
+        if (dir < 0) {
+            pointer--;
+        }
+
+        if (pointer == ints.size()) {
+            dir = -1;
+            pointer = ints.size() - 1;
+        } else if (pointer < 0) {
+            dir = 1;
+            pointer = 0;
+        }
+
+        sum += abs(current - ints.get(pointer));
+        System.out.println(ints.get(pointer) + " = " + sum );
+        current = ints.get(pointer);
+
+        for (int count = ints.size(); count > 1; count--) {
+            pointer += dir;
+
+            if (pointer == ints.size()) {
+                dir = -1;
+                pointer = ints.size() - 1;
+            } else if (pointer < 0) {
+                dir = 1;
+                pointer = 0;
+            }
+
+            sum += abs(current - ints.get(pointer));
+            System.out.println(current + " -> " + ints.get(pointer) + " = " + abs(current - ints.get(pointer)));
+            current = ints.get(pointer);
+        }
+
+        System.out.println(sum);
+    }
+
+    static void clook(int start, int dir, ArrayList<Integer> ints ) {
+        System.out.println("starts moving in " + (dir < 0 ? "negative": "positive") + " direction");
+
+        Collections.sort(ints);
+
+        int current = start;
+        int sum = 0;
+        int pointer = 0;
+
+        while (pointer < ints.size() && current > ints.get(pointer)) {
+            pointer++;
+        }
+
+        if (dir < 0) {
+            pointer--;
+        }
+
+        if (pointer == ints.size()) {
+            pointer = 0;
+        } else if (pointer < 0) {
+            pointer = ints.size() - 1;
+        }
+
+        System.out.print(current + " -> ");
+        sum += abs(current - ints.get(pointer));
+        System.out.println(ints.get(pointer) + " = " + sum );
+        current = ints.get(pointer);
+
+        for (int count = ints.size(); count > 1; count--) {
+            pointer += dir;
+
+            if (pointer == ints.size()) {
+                pointer = 0;
+            } else if (pointer < 0) {
+                pointer = ints.size() - 1;
+            }
+
+            sum += abs(current - ints.get(pointer));
+            System.out.println(current + " -> " + ints.get(pointer) + " = " + abs(current - ints.get(pointer)));
+            current = ints.get(pointer);
+        }
+
+        System.out.println(sum);
+
     }
 }
