@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 
 import static java.lang.Math.abs;
@@ -17,7 +18,7 @@ public class misc {
 
         Collections.addAll(ints, 2069, 1212, 2296, 2800, 544, 1618, 356, 1523, 4965, 3681);
         int start = 2150;
-        int prev = 1800;
+        int prev = 1805;
 //
 //        Collections.addAll(ints, 2, 12, 10, 8);
 //        CYLINDERS = 15;
@@ -26,12 +27,18 @@ public class misc {
 
         int dir = (start - prev) >= 0 ? 1: -1;
 
-        fcfs(start, ints);
-        sstf(start, ints);
-        scan(start, dir, ints);
-        cscan(start, dir, ints);
-        look(start, dir, ints);
-        clook(start, dir, ints);
+        System.out.println("FSCS");
+        fcfs(start, (ArrayList<Integer>) ints.clone());
+        System.out.println("SSTF");
+        sstf(start, (ArrayList<Integer>) ints.clone());
+        System.out.println("Scan");
+        scan(start, dir, (ArrayList<Integer>) ints.clone());
+        System.out.println("C-scan");
+        cscan(start, dir, (ArrayList<Integer>) ints.clone());
+        System.out.println("Look");
+        look(start, dir, (ArrayList<Integer>) ints.clone());
+        System.out.println("C-look");
+        clook(start, dir, (ArrayList<Integer>) ints.clone());
     }
 
     static void fcfs(int start, ArrayList<Integer> ints) {
@@ -78,6 +85,7 @@ public class misc {
         System.out.println("starts moving in " + (dir < 0 ? "negative" : "positive") + " direction");
 
         Collections.sort(ints);
+        boolean[] flags = new boolean[ints.size()];
 
         int current = start;
         int sum = 0;
@@ -96,19 +104,20 @@ public class misc {
             sum += CYLINDERS - current;
             current = CYLINDERS;
             dir = -1;
-            pointer = ints.size() - 1;
+            pointer = nextPointer(dir, ints, flags);
         } else if (pointer < 0) {
             System.out.println(current + " -> 0 = " + current);
             sum += current;
             current = 0;
             dir = 1;
-            pointer = 0;
+            pointer = nextPointer(dir, ints, flags);
         }
 
         System.out.print(current + " -> ");
         sum += abs(current - ints.get(pointer));
         System.out.println(ints.get(pointer) + " = " + sum );
         current = ints.get(pointer);
+        flags[pointer] = true;
 
         for (int count = ints.size(); count > 1; count--) {
             pointer += dir;
@@ -118,21 +127,36 @@ public class misc {
                 sum += CYLINDERS - current;
                 current = CYLINDERS;
                 dir = -1;
-                pointer = ints.size() - 1;
+                pointer = nextPointer(dir, ints, flags);
             } else if (pointer < 0) {
                 System.out.println(current + " -> 0 = " + current);
                 sum += current;
                 current = 0;
                 dir = 1;
-                pointer = 0;
+                pointer = nextPointer(dir, ints, flags);
             }
 
             sum += abs(current - ints.get(pointer));
             System.out.println(current + " -> " + ints.get(pointer) + " = " + abs(current - ints.get(pointer)));
             current = ints.get(pointer);
+            flags[pointer] = true;
         }
 
         System.out.println(sum);
+    }
+
+    static int nextPointer(int dir, ArrayList<Integer> ints, boolean[] flags) {
+        int pointer = dir > 0 ? 0: ints.size() - 1;
+
+        while (flags[pointer]) {
+            pointer += dir;
+            if (pointer > flags.length || pointer < 0) {
+                pointer = -1;
+                break;
+            }
+        }
+
+        return pointer;
     }
 
     static void cscan(int start, int dir, ArrayList<Integer> ints ) {
@@ -198,6 +222,7 @@ public class misc {
         System.out.print(start + " -> ");
 
         Collections.sort(ints);
+        boolean[] flags = new boolean[ints.size()];
 
         int current = start;
         int sum = 0;
@@ -213,30 +238,32 @@ public class misc {
 
         if (pointer == ints.size()) {
             dir = -1;
-            pointer = ints.size() - 1;
+            pointer = nextPointer(dir, ints, flags);
         } else if (pointer < 0) {
             dir = 1;
-            pointer = 0;
+            pointer = nextPointer(dir, ints, flags);
         }
 
         sum += abs(current - ints.get(pointer));
         System.out.println(ints.get(pointer) + " = " + sum );
         current = ints.get(pointer);
+        flags[pointer] = true;
 
         for (int count = ints.size(); count > 1; count--) {
             pointer += dir;
 
             if (pointer == ints.size()) {
                 dir = -1;
-                pointer = ints.size() - 1;
+                pointer = nextPointer(dir, ints, flags);
             } else if (pointer < 0) {
                 dir = 1;
-                pointer = 0;
+                pointer = nextPointer(dir, ints, flags);
             }
 
             sum += abs(current - ints.get(pointer));
             System.out.println(current + " -> " + ints.get(pointer) + " = " + abs(current - ints.get(pointer)));
             current = ints.get(pointer);
+            flags[pointer] = true;
         }
 
         System.out.println(sum);
