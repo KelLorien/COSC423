@@ -102,7 +102,7 @@ public abstract class Pager {
                     "========================================");
         } else {
             printSnapshots(snapshots.subList(0, ROW_SIZE - 1));
-            printSnapshots(snapshots.subList(ROW_SIZE, snapshots.size() - 1));
+            printSnapshots(snapshots.subList(ROW_SIZE, snapshots.size()));
         }
     }
 
